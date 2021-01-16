@@ -27,8 +27,8 @@ export default class App extends Component {
         <FlatList
           data={data}
           keyExtractor={({ id }) => id.toString()}
-          renderItem={({ item }) => (<View>
-            <Text>{item.title}</Text>
+          renderItem={({ item }) => (<View style={{ marginBottom: 20, borderWidth: 1, borderColor: 'black', alignItems: 'center', padding: 5, marginLeft: 5, marginRight: 5 }}>
+            <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{item.title}</Text>
             <Image source={{ uri: item.thumbnailUrl }} style={{ width: 150, height: 150 }} />
           </View>
           )}
