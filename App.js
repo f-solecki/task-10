@@ -1,21 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import React, { Component } from 'react';
+import { FlatList, Text, View, Image } from 'react-native';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: [],
+    };
+  }
+
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/photos')
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({ data: json });
+      })
+      .catch((error) => console.error(error))
+  }
+
+  render() {
+    const { data } = this.state;
+    return (
+      <View style={{ flex: 1, marginTop: 45 }}>
+        <FlatList
+          data={data}
+          keyExtractor={({ id }) => id.toString()}
+          renderItem={({ item }) => (<View>
+            <Text>{item.title}</Text>
+            <Image source={{ uri: item.thumbnailUrl }} style={{ width: 150, height: 150 }} />
+          </View>
+          )}
+        />
+      </View>
+    );
+  }
+};
